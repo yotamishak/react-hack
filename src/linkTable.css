@@ -1,0 +1,62 @@
+.col {
+    align-self: center;
+    text-align: center;
+}
+
+.site_name {
+    font-size: 220%;
+    align-self: center;
+}
+
+.brandName {
+    font-size: 120%;
+    align-self: center;
+}
+
+.LinkTable {
+    align-self: center;
+    text-align: center;
+    
+}
+
+    .LinkSet {
+    padding: 1px;
+}
+
+.table td {
+    vertical-align: middle !important;
+    position: relative;
+}
+.infoIcon{
+    position:absolute;
+    top:5px;
+    right:5px;
+    cursor: pointer;
+}
+.dealIcon{
+    position: absolute;
+    bottom: 5px;
+    right: 5px;
+    cursor: pointer;
+}
+.revShare{
+    position: absolute;
+    bottom: 5px;
+    left: 5px;
+    cursor: pointer;
+}
+.subHeader{
+    background: #d0d0d0;
+}
+.mainHeader{
+    background: #C6C1C1;
+}
+.noData{
+    font-size:35px;
+}
+td .statusPic{
+    margin: 25px;
+}
+.linkResults{
+    border: black;
+}

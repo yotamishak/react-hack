@@ -1,26 +1,32 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React, { Component } from "react";
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+import Header from "./Header";
+import ScrollUpButton from "react-scroll-up-button";
+import "./App.css";
+import LinkList from "./linkList";
+
+
+class App extends Component {
+  constructor(props) {
+    super(props);
+
+    this.state = {
+      site: false
+    }
+
+
+  }
+
+
+  render() {
+    return (
+      <div>
+        <Header />
+        <LinkList />
+        <ScrollUpButton />
+      </div>
+    );
+  }
 }
 
 export default App;

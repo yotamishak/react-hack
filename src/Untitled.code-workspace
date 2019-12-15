@@ -1,0 +1,15 @@
+{
+    "folders": [
+		{
+			"path": "/Users/user1/react-hack"
+		},
+		{
+			"path": "/Users/user1/Downloads/src1"
+		}
+	],
+    "settings": {
+        "files.associations": {
+            "*.js": "javascriptreact"
+        }
+    }
+}
