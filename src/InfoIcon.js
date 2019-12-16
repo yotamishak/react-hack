@@ -18,7 +18,7 @@ function popover(text) {
 export default function InfoIcon({ title, text }) {
     return (
         <OverlayTrigger trigger="hover" placement="auto" overlay={popover(text)}>
-            <Image className="infoIcon" width="20px" src={
+            <Image className="infoIcon" width="15px" src={
                 `${process.env.PUBLIC_URL}/icon1.jpg`
             }
             />

@@ -6,7 +6,7 @@ class YellowLight extends Component {
 
   render() {
     return (
-      <Image width="30px" className="statusPic" src={
+      <Image width="15px" className="statusPic" src={
         `${process.env.PUBLIC_URL}/yellow_light.jpeg`
       }
       />)

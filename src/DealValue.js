@@ -2,7 +2,7 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Button from "react-bootstrap/Button";
 import Tooltip from "react-bootstrap/Tooltip";
-import Image from "react-bootstrap/Image";
+import "./newLinkRow.css"
 import OverlayTrigger from "react-bootstrap/OverlayTrigger"
 
 import "./linkTable.css"
@@ -21,9 +21,9 @@ export default function DealValue({ title, description }) {
     return (
         <div>
             <OverlayTrigger trigger="hover" placement="auto" overlay={renderTooltip}>
-                <Image className="revShare" width="20px" src={
-                    `${process.env.PUBLIC_URL}/dollar_icon.jpg`} onClick={handleShow}
-                />
+                <Button className="dealButton" variant="info"
+                    onClick={handleShow}
+                >Deal Value</Button>
             </OverlayTrigger>
 
             <Modal show={show} onHide={handleClose} centered size="lg">

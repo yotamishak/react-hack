@@ -1,0 +1,76 @@
+.linkRow{
+    display:flex;
+    flex-flow:row;
+    margin:5px;
+    align-items:strech;
+}
+/* .testResults{
+    display:flex;
+    flex-flow:column;
+    border: solid black 1px;
+   
+} */
+.right{
+    width: 20%;
+    border: solid black 1px;
+    padding:5px;
+}
+.LinkSet{
+    width:65%;
+    border: solid black 1px;
+    padding:20px;
+}
+/* .test{
+    position: relative;
+    border: solid black 1px;
+    background: rgba(176,176,176,1);
+    background: -moz-linear-gradient(top, rgba(176,176,176,1) 13%, rgba(204,204,204,1) 53%, rgba(204,204,204,1) 54%, rgba(204,204,204,1) 69%);
+    background: -webkit-gradient(left top, left bottom, color-stop(13%, rgba(176,176,176,1)), color-stop(53%, rgba(204,204,204,1)), color-stop(54%, rgba(204,204,204,1)), color-stop(69%, rgba(204,204,204,1)));
+    background: -webkit-linear-gradient(top, rgba(176,176,176,1) 13%, rgba(204,204,204,1) 53%, rgba(204,204,204,1) 54%, rgba(204,204,204,1) 69%);
+    background: -o-linear-gradient(top, rgba(176,176,176,1) 13%, rgba(204,204,204,1) 53%, rgba(204,204,204,1) 54%, rgba(204,204,204,1) 69%);
+    background: -ms-linear-gradient(top, rgba(176,176,176,1) 13%, rgba(204,204,204,1) 53%, rgba(204,204,204,1) 54%, rgba(204,204,204,1) 69%);
+    background: linear-gradient(to bottom, rgba(176,176,176,1) 13%, rgba(204,204,204,1) 53%, rgba(204,204,204,1) 54%, rgba(204,204,204,1) 69%);
+    filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#b0b0b0', endColorstr='#cccccc', GradientType=0 );
+} */
+.test{
+    padding:0px !important;
+}
+.middle{
+    display: flex;
+    flex-flow:column;
+    border: solid black 1px;
+    align-self: stretch;
+    padding: 0px 10px;
+
+}
+.screenshot{
+    justify-content:center;
+    align-self: center;
+    padding:20px;
+}
+.deal{
+    display: flex;
+    flex-flow: column;
+    flex-grow: 1;
+    justify-content: space-around;
+    align-self: stretch;
+}
+.dealButton{
+    width:100%;
+}
+.screenShotHeader{
+    padding: 0 !important;
+    text-align: center !important;
+}
+.screenShot{
+    margin:5px;
+}
+.screenShotBody{
+    padding:10px !important;
+}
+.testHeader{
+    padding:0px !important;
+}
+.screenShotThumbnail{
+    cursor: pointer;
+}

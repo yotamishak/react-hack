@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-
 import SearchBar from "./SearchBar"
 import { GridLoader } from 'react-spinners'
 

@@ -2,6 +2,8 @@ import React from "react";
 import Modal from "react-bootstrap/Modal";
 import Image from "react-bootstrap/Image";
 import Button from "react-bootstrap/Button";
+import Card from "react-bootstrap/Card"
+import "./newLinkRow.css"
 
 import { useState } from "react";
 
@@ -12,8 +14,12 @@ export default function ScreenShot({ src, title, description }) {
   const handleShow = () => setShow(true);
 
   return (
-    <div>
-      <Image src={src} thumbnail width="100px" onClick={handleShow} />
+    <>
+      <Card className="screenShot" style={{ width: '120px' }}>
+        <Card.Header className="screenShotHeader">
+          Screenshot</Card.Header>
+        <Card.Img className="screenShotThumbnail" src={src} onClick={handleShow} />
+      </Card>
       <Modal show={show} onHide={handleClose} centered size="lg">
         <Modal.Header closeButton>
           <Modal.Title>{title}</Modal.Title>
@@ -29,6 +35,6 @@ export default function ScreenShot({ src, title, description }) {
           </Button>
         </Modal.Footer>
       </Modal>
-    </div>
+    </>
   );
 }
