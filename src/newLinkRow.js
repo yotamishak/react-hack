@@ -6,6 +6,7 @@ import Row from "react-bootstrap/Row";
 import Button from "react-bootstrap/Button";
 import TestResults from "./testResults";
 import ScreenShot from "./ScreenShotModal";
+import Card from "react-bootstrap/Card";
 import Image from "react-bootstrap/Image"
 import DealValue from "./DealValue";
 import DealDetails from "./DealDetails";
@@ -30,39 +31,54 @@ class NewLinkRow extends Component {
             lp: this.props.linkInfo.LandingPage ? this.props.linkInfo.LandingPage : "No Info",
             screenshot: this.props.linkInfo.Screenshot ? this.props.linkInfo.Screenshot : false,
             testResults: this.props.linkInfo.ListCheck ? this.props.linkInfo.ListCheck : false,
-            internal: this.props.linkInfo.isInternalLink
+            internal: this.props.linkInfo.isInternalLink,
+            tally: false
+
         };
-        this.noData = this.noData.bind(this);
-    }
-    noData() {
-        this.setState({ hasData: false })
+        this.tallyLinks = this.tallyLinks.bind(this);
     }
 
-    componentDidMount() {
-        if (!this.state.testResults) {
-            this.props.noData();
-
-            if (this.state.internal) {
-                this.props.validLinkCounter(4);
+    static getDerivedStateFromProps(props, state) {
+        if (props.linkInfo !== state.linkInfo) {
+            return {
+                linkInfo: props.linkInfo,
+                index: props.index,
+                pl: props.linkInfo.Prettylink,
+                al: props.linkInfo.TrackerUrl,
+                lp: props.linkInfo.LandingPage ? props.linkInfo.LandingPage : "No Info",
+                screenshot: props.linkInfo.Screenshot ? props.linkInfo.Screenshot : false,
+                testResults: props.linkInfo.ListCheck ? props.linkInfo.ListCheck : false,
+                internal: props.linkInfo.isInternalLink,
+                tally: false
             }
+        }
+    }
+
+
+    tallyLinks() {
+        if (!this.state.testResults || this.state.internal || this.state.linkInfo.isStopTrafficLink || this.state.linkInfo.isNoDealLink) {
+            this.props.validLinkCounter(4);
+        }
+        else if (this.state.testResults.TrackerIdCheck === false || this.state.testResults.dealCheck === false || this.state.testResults.countryCheck === false || this.state.testResults.AccountActive === false || this.state.testResults.serverResponseCheck === false || this.state.testResults.SubidCheck === false) {
+            this.props.validLinkCounter(3);
+        }
+        else if (this.state.testResults.SubidCheck === null || this.state.testResults.TrackerHasSC === true || this.state.testResults.DealStatusCode === null || this.state.testResults.DealCountryList === null || this.state.testResults.DomainCountryISOCode === null || this.state.testResults.AccountActive === null) {
+            this.props.validLinkCounter(2);
         }
         else {
-            if (this.state.testResults.TrackerIdCheck === false || this.state.testResults.dealCheck === false || this.state.testResults.countryCheck === false || this.state.testResults.AccountActive === false || this.state.testResults.serverResponseCheck === false || this.state.testResults.SubidCheck === false) {
-                this.props.validLinkCounter(3);
-            }
-            else if (this.state.testResults.SubidCheck === null || this.state.testResults.TrackerHasSC === true || this.state.testResults.DealStatusCode === null || this.state.testResults.DealCountryList === null || this.state.testResults.DomainCountryISOCode === null || this.state.testResults.AccountActive === null) {
-                this.props.validLinkCounter(2);
-            }
-            else {
-                this.props.validLinkCounter(1)
-            }
+            this.props.validLinkCounter(1)
         }
+        this.setState({ tally: true });
 
     }
 
+
     render() {
+        if (!this.state.tally)
+            this.tallyLinks();
+
         return (
-            <div className='linkRow'>
+            <div className='linkRow' >
 
                 <Form className="LinkSet">
                     <Form.Group as={Row} >
@@ -139,8 +155,9 @@ class NewLinkRow extends Component {
                         >Deal Value</Button>}
                     </div>
                 </div >
-                <TestResults Screenshot={this.state.screenshot} testResults={this.state.testResults} linkInfo={this.state.linkInfo} />
-
+                {this.state.testResults ? <TestResults Screenshot={this.state.screenshot} testResults={this.state.testResults} linkInfo={this.state.linkInfo} />
+                    : <Card className="right" >
+                        <Card.Header className="testHeader">Test Results</Card.Header> </Card>}
             </div >
 
         );

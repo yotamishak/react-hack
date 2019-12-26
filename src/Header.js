@@ -1,5 +1,6 @@
 import React, { Component } from "react";
 import Jumbotron from "react-bootstrap/Jumbotron";
+import Button from "react-bootstrap/Button";
 
 
 import "./header.css";
@@ -15,6 +16,7 @@ class Header extends Component {
 <br /><br /><strong>
               Powered by Hackathon Team 7</strong>
           </p>
+          <Button onClick={() => window.location.reload(false)}>Back to Home</Button>
         </Jumbotron>
       </div>
     );

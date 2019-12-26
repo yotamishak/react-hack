@@ -2,7 +2,13 @@
     align-self: center;
     text-align: center;
 }
+.cardRow{
 
+    padding:15px;  
+}
+.card-title {
+    margin:0px;
+}
 .site_name {
     font-size: 220%;
     align-self: center;

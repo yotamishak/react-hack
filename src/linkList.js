@@ -27,13 +27,14 @@ class LinkList extends Component {
 
 
   pickSite(site) {
+    this.setState(() => ({ Loaded: false }));
     fetch(`https://tqesa6enj4.execute-api.us-east-1.amazonaws.com/default/getTrackers?domainName=${site}`)
       .then(res => res.json())
       .then(res => {
-        this.setState((prev, props) => ({ siteInfo: res, chooseSite: true, siteName: site }));
+        this.setState((prev, props) => ({ siteInfo: res, chooseSite: true, siteName: site, Loaded: true }));
       });
 
-    // this.setState(() => ({ chooseSite: true, siteName: site }));
+
   }
 
   componentDidMount() {
@@ -64,7 +65,7 @@ class LinkList extends Component {
 
       }
     }
-    return null;
+    return <GridLoader color={'#36d7b7'} size={100} sizeUnit={"px"} css={style} />;
   }
 
 

@@ -10,25 +10,11 @@ import "./siteCard.css"
 
 
 
-// const defineFlag = function (res) {
-
-
-//     if (res.TrackerIdCheck === false || res.dealCheck === false || res.countryCheck === false || res.AccountActive === false || res.serverResponseCheck === false || res.SubidCheck === false) {
-//         return 3;
-//     }
-//     else if (res.SubidCheck === null || res.TrackerHasSC === true || res.DealStatusCode === null || res.DealCountryList === null || res.DomainCountryISOCode === null || res.AccountActive === null) {
-//         return 2;
-//     }
-//     else {
-//         return 1;
-//     }
-// };
-
-
 
 class SiteCard extends Component {
     constructor(props) {
         super(props);
+
 
         this.state = {
             // Loaded:false,
@@ -47,70 +33,105 @@ class SiteCard extends Component {
             redLinks: 0,
             greyLinks: 0,
             totalLinks: this.props.siteInfo.length,
-            siteBool: true,
-            filtered: null
+            firstMount: true,
+            filtered: 0,
+            current: []
 
         };
-        this.totalSiteCounter = this.totalSiteCounter.bind(this);
-        // this.filterBy = this.filterBy.bind(this);
-        // this.defineFlag = this.defineFlag.bind(this);
+        this.sortData = this.sortData.bind(this);
+
+        this.updateFilter = this.updateFilter.bind(this);
 
 
     }
-    // filterBy(f) {
-    //     let filtered = [];
-    //     if (f === 0) {
-    //         filtered = this.state.originalSiteInfo
-    //     }
-    //     else {
-    //         filtered = this.state.originalSiteInfo.filter(link => {
-    //             if (link.isInternalLink) {
-    //                 if (f === 4)
-    //                     return link;
-    //             }
-    //             else if (defineFlag(link.ListCheck) === f) {
-    //                 return link;
-    //             }
-    //         });
-    //     }
+    componentDidMount() {
 
-    //     if (filtered) {
-    //         filtered = filtered.reduce((acc, obj) => {
-    //             var key = obj['PalconBrandName'];
-    //             if (!acc[key]) {
-    //                 acc[key] = [];
-    //             }
-    //             acc[key].push(obj);
-    //             return acc;
-    //         }, {});
-    //         this.setState((prevState) => ({ siteInfo: filtered, filtered: true }));
-    //         console.log(filtered);
-    //     }
-    // }
-
-
-    totalSiteCounter(v) {
-        if (v === 1) {
-            this.setState((prevState, props) => ({ greenLinks: prevState.greenLinks + 1 }));
-
-
-        }
-        else if (v === 2) {
-            this.setState((prevState, props) => ({ yellowLinks: prevState.yellowLinks + 1 }));
-
-        }
-        else if (v === 3) {
-            this.setState((prevState, props) => ({ redLinks: prevState.redLinks + 1 }));
-
-        }
-        else {
-            this.setState((prevState, props) => ({ greyLinks: prevState.greyLinks + 1 }));
-        }
+        this.sortData(this.state.originalSiteInfo);
+        this.setState({ firstMount: false });
     }
+    sortData(siteInfo) {
+        let filteredGreen = [], filteredYellow = [], filteredRed = [], filteredGrey = [], total = [];
+
+        for (let link of siteInfo) {
+            if (!link.ListCheck || link.isInternalLink || link.isNoDealLink || link.isStopTrafficLink) {
+                filteredGrey.push(link);
+            }
+            else {
+                if (link.ListCheck.TrackerIdCheck === false || link.ListCheck.dealCheck === false || link.ListCheck.countryCheck === false || link.ListCheck.AccountActive === false || link.ListCheck.serverResponseCheck === false || link.ListCheck.SubidCheck === false) {
+                    filteredRed.push(link);
+                }
+                else if (link.ListCheck.SubidCheck === null || link.ListCheck.TrackerHasSC === true || link.ListCheck.DealStatusCode === null || link.ListCheck.DealCountryList === null || link.ListCheck.DomainCountryISOCode === null || link.ListCheck.AccountActive === null) {
+                    filteredYellow.push(link);
+                }
+                else {
+                    filteredGreen.push(link);
+                }
+            }
+        }
+        this.setState({ greenLinks: filteredGreen.length, yellowLinks: filteredYellow.length, redLinks: filteredRed.length, greyLinks: filteredGrey.length });
+        total = siteInfo.reduce((acc, obj) => {
+            var key = obj['PalconBrandName'];
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+        filteredGreen = filteredGreen.reduce((acc, obj) => {
+            var key = obj['PalconBrandName'];
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+        filteredGrey = filteredGrey.reduce((acc, obj) => {
+            var key = obj['PalconBrandName'];
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+        filteredYellow = filteredYellow.reduce((acc, obj) => {
+            var key = obj['PalconBrandName'];
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+        filteredRed = filteredRed.reduce((acc, obj) => {
+            var key = obj['PalconBrandName'];
+            if (!acc[key]) {
+                acc[key] = [];
+            }
+            acc[key].push(obj);
+            return acc;
+        }, {});
+
+        this.setState({ total: total, filteredRed: filteredRed, filteredGreen: filteredGreen, filteredYellow: filteredYellow, filteredGrey: filteredGrey })
+    }
+
+    updateFilter(f) {
+        if (f === 0)
+            this.setState(() => ({ siteInfo: this.state.total }));
+        else if (f === 1)
+            this.setState(() => ({ siteInfo: this.state.filteredGreen }));
+        else if (f === 2)
+            this.setState(() => ({ siteInfo: this.state.filteredYellow }));
+        else if (f === 3)
+            this.setState(() => ({ siteInfo: this.state.filteredRed }));
+        else if (f === 4)
+            this.setState(() => ({ siteInfo: this.state.filteredGrey }));
+
+    }
+
 
     render() {
 
-        if (Object.keys(this.state.siteInfo).length) {
+
+        if (this.state.originalSiteInfo) {
             return (
 
                 <Card >
@@ -123,11 +144,11 @@ class SiteCard extends Component {
                             </Col>
 
                             <Col className="status" md={{ span: 5 }}>
-                                <Button variant="info" >Total Links:{this.state.totalLinks}</Button>
-                                <Button variant="success" >Valid Links:{this.state.greenLinks}</Button>
-                                <Button variant="danger" >Critcal Errors: {this.state.redLinks}</Button>
-                                <Button variant="warning" >Warnings: {this.state.yellowLinks}</Button>
-                                <Button variant="secondary" >Internal Links: {this.state.greyLinks}</Button>
+                                <Button variant="info" onClick={() => { this.updateFilter(0) }} >Total Links:{this.state.totalLinks}</Button>
+                                <Button variant="success" onClick={() => { this.updateFilter(1) }}>Valid Links:{this.state.greenLinks}</Button>
+                                <Button variant="danger" onClick={() => { this.updateFilter(3) }}>Critcal Errors: {this.state.redLinks}</Button>
+                                <Button variant="warning" onClick={() => { this.updateFilter(2) }}>Warnings: {this.state.yellowLinks}</Button>
+                                <Button variant="secondary" onClick={() => { this.updateFilter(4) }} >Internal Links: {this.state.greyLinks}</Button>
                             </Col>
                         </Row>
 
@@ -139,7 +160,7 @@ class SiteCard extends Component {
 
                                 return (
 
-                                    <LinkAccordian className="LinkTable" brandName={brand} brandInfo={this.state.siteInfo[brand]} filter={this.state.filtered} totalSiteCounter={this.totalSiteCounter} key={k} />
+                                    <LinkAccordian className="LinkTable" brandName={brand} brandInfo={this.state.siteInfo[brand]} key={k} />
                                 );
                             })
                         }

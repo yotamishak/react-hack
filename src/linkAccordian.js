@@ -16,45 +16,62 @@ class LinkAccordian extends Component {
         super(props);
 
         this.state = {
-            brand: this.props.brandName,
-            brandInfo: this.props.brandInfo,
+            brand: props.brandName,
+            brandInfo: props.brandInfo,
             greenLinks: 0,
             yellowLinks: 0,
             redLinks: 0,
             greyLinks: 0,
             totalLinks: this.props.brandInfo.length,
-            validBool: true,
             brandPic: this.props.brandInfo[0].BrandPicUrl,
-            hasData: true
         };
 
         this.validLinkCounter = this.validLinkCounter.bind(this);
-        this.noData = this.noData.bind(this);
     }
-    noData() {
-        this.setState({ hasData: false })
+
+    static getDerivedStateFromProps(props, state) {
+
+        if (props.brandInfo !== state.brandInfo) {
+            if (props.brandName === state.brand && props.brandInfo.length === state.totalLinks) {
+                return {
+                    brand: props.brandName,
+                    brandInfo: props.brandInfo,
+                    brandPic: props.brandInfo[0].BrandPicUrl,
+                }
+            }
+            else {
+                return {
+                    brand: props.brandName,
+                    brandInfo: props.brandInfo,
+                    greenLinks: 0,
+                    yellowLinks: 0,
+                    redLinks: 0,
+                    greyLinks: 0,
+                    totalLinks: props.brandInfo.length,
+                    brandPic: props.brandInfo[0].BrandPicUrl,
+                }
+            }
+
+        }
     }
+
 
 
     validLinkCounter(v) {
 
         if (v === 1) {
             this.setState((prevState, props) => ({ greenLinks: prevState.greenLinks + 1 }));
-            this.props.totalSiteCounter(1);
 
         }
         else if (v === 2) {
             this.setState((prevState, props) => ({ yellowLinks: prevState.yellowLinks + 1 }));
-            this.props.totalSiteCounter(2);
 
         }
         else if (v === 3) {
             this.setState((prevState, props) => ({ redLinks: prevState.redLinks + 1 }));
-            this.props.totalSiteCounter(3);
         }
         else {
             this.setState((prevState, props) => ({ greyLinks: prevState.greyLinks + 1 }));
-            this.props.totalSiteCounter(4);
         }
     }
 
@@ -67,9 +84,9 @@ class LinkAccordian extends Component {
                 <Card>
                     <Card.Title>
                         <Accordion.Toggle as={Card.Title} eventKey="0">
-                            <Row>
-                                <Col md={{ offset: 1 }}>
-                                    <LazyLoad offset={100} height={70}>
+                            <Row className="cardRow">
+                                <Col className="cardCol" md={{ offset: 1 }}>
+                                    <LazyLoad offset={500} height={70}>
                                         <Image src={this.state.brandPic} width="100px" />
                                     </LazyLoad>
                                 </Col>
@@ -78,7 +95,6 @@ class LinkAccordian extends Component {
                                 </Col>
 
                                 <Col className="tests" md={{ span: 3 }} >
-                                    <Badge pill variant="info">Total Links: {this.state.totalLinks}</Badge>
                                     {this.state.greenLinks ? <Badge pill variant="success">Valid Links: {this.state.greenLinks}</Badge> : <></>}
                                     {this.state.redLinks ? <Badge pill variant="danger">Critcal Errors: {this.state.redLinks}</Badge> : <></>}
                                     {this.state.yellowLinks ? <Badge pill variant="warning">Warnings: {this.state.yellowLinks}</Badge> : <></>}
@@ -96,7 +112,7 @@ class LinkAccordian extends Component {
                                 return (
                                     <>
                                         <ListGroup variant="flush">
-                                            <NewLinkRow brand={this.state.brand} linkInfo={linkInfo} noData={this.noData.bind(this)} validLinkCounter={this.validLinkCounter.bind(this)} index={index} key={index} />
+                                            <NewLinkRow brand={this.state.brand} linkInfo={linkInfo} validLinkCounter={this.validLinkCounter.bind(this)} index={index} key={index} />
                                         </ListGroup></>
                                 );
                             })}
